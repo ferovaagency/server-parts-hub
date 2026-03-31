@@ -40,10 +40,10 @@ export default function QuotePage() {
   if (submitted) {
     return (
       <div className="container mx-auto px-4 py-20 text-center space-y-4">
-        <CheckCircle className="w-16 h-16 text-accent mx-auto" />
+        <CheckCircle className="w-16 h-16 text-red mx-auto" />
         <h1 className="text-3xl font-bold">¡Cotización enviada!</h1>
         <p className="text-lg text-muted-foreground">Tu referencia:</p>
-        <p className="text-4xl font-black text-accent">{submitted}</p>
+        <p className="text-4xl font-black text-red">{submitted}</p>
         <p className="text-muted-foreground">Un asesor te contactará pronto.</p>
       </div>
     );
@@ -76,7 +76,7 @@ export default function QuotePage() {
               <Input required type="email" placeholder="Email *" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
               <Input required placeholder="Teléfono *" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
               <Textarea placeholder="Notas adicionales" value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} />
-              <Button type="submit" disabled={saving} className="w-full bg-accent text-accent-foreground hover:bg-orange-light text-lg py-3">
+              <Button type="submit" disabled={saving} className="w-full bg-red text-accent-foreground hover:bg-red-light text-lg py-3">
                 {saving ? "Enviando..." : "Enviar cotización por WhatsApp"}
               </Button>
             </form>

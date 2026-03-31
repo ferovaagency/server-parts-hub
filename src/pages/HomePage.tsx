@@ -41,7 +41,7 @@ export default function HomePage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
             <Link
               to="/tienda"
-              className="inline-block mt-8 bg-accent text-accent-foreground px-8 py-3.5 rounded-xl text-lg font-bold hover:bg-orange-light transition-colors"
+              className="inline-block mt-8 bg-red text-accent-foreground px-8 py-3.5 rounded-xl text-lg font-bold hover:bg-red-light transition-colors"
             >
               Ver catálogo
             </Link>
@@ -70,8 +70,8 @@ export default function HomePage() {
               { icon: Wrench, title: "Instalación", desc: "Servicios profesionales de instalación, configuración y cableado.", to: "/servicios/instalacion" },
             ].map((s) => (
               <Link key={s.to} to={s.to} className="bg-card border rounded-xl p-6 hover:shadow-elevated transition-shadow group">
-                <s.icon className="w-10 h-10 text-accent mb-4" />
-                <h3 className="font-bold text-lg mb-2 group-hover:text-accent transition-colors">{s.title}</h3>
+                <s.icon className="w-10 h-10 text-red mb-4" />
+                <h3 className="font-bold text-lg mb-2 group-hover:text-red transition-colors">{s.title}</h3>
                 <p className="text-sm text-muted-foreground">{s.desc}</p>
               </Link>
             ))}
@@ -108,8 +108,8 @@ export default function HomePage() {
                 to={`/tienda?category=${c.slug}`}
                 className="flex flex-col items-center bg-card border rounded-xl p-8 hover:shadow-elevated transition-shadow group"
               >
-                <c.icon className="w-12 h-12 text-accent mb-3" />
-                <span className="font-bold text-lg group-hover:text-accent transition-colors">{c.label}</span>
+                <c.icon className="w-12 h-12 text-red mb-3" />
+                <span className="font-bold text-lg group-hover:text-red transition-colors">{c.label}</span>
               </Link>
             ))}
           </div>
@@ -143,7 +143,7 @@ export default function HomePage() {
               ))}
             </div>
             <div className="text-center mt-8">
-              <Link to="/tienda" className="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-xl font-bold hover:bg-navy-light transition-colors">
+              <Link to="/tienda" className="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-xl font-bold hover:bg-dark-light transition-colors">
                 Ver todo el catálogo
               </Link>
             </div>

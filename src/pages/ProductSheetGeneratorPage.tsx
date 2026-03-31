@@ -43,7 +43,7 @@ export default function ProductSheetGeneratorPage() {
             <input type="checkbox" name="rental" className="rounded" />
             Disponible para arrendamiento
           </label>
-          <Button type="submit" disabled={loading} className="w-full bg-accent text-accent-foreground hover:bg-orange-light">
+          <Button type="submit" disabled={loading} className="w-full bg-red text-accent-foreground hover:bg-red-light">
             {loading ? "Generando..." : "Generar ficha técnica"}
           </Button>
         </form>

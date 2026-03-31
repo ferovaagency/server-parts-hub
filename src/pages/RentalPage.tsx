@@ -31,7 +31,7 @@ export default function RentalPage() {
               { icon: Headphones, title: "Asesoría 24/7", desc: "Equipo de expertos a tu disposición" },
             ].map((b) => (
               <div key={b.title} className="bg-card border rounded-xl p-6 text-center">
-                <b.icon className="w-10 h-10 text-accent mx-auto mb-3" />
+                <b.icon className="w-10 h-10 text-red mx-auto mb-3" />
                 <h3 className="font-bold mb-1">{b.title}</h3>
                 <p className="text-sm text-muted-foreground">{b.desc}</p>
               </div>
@@ -52,7 +52,7 @@ export default function RentalPage() {
           )}
 
           <div className="text-center mt-10">
-            <a href={whatsappUrl("Hola, me interesa el servicio de arrendamiento de equipos.")} target="_blank" rel="noopener noreferrer" className="inline-block bg-accent text-accent-foreground px-8 py-3 rounded-xl font-bold hover:bg-orange-light transition-colors">
+            <a href={whatsappUrl("Hola, me interesa el servicio de arrendamiento de equipos.")} target="_blank" rel="noopener noreferrer" className="inline-block bg-red text-accent-foreground px-8 py-3 rounded-xl font-bold hover:bg-red-light transition-colors">
               Solicitar cotización de arrendamiento
             </a>
           </div>

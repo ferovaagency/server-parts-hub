@@ -12,7 +12,7 @@ export default function CookieBanner() {
         <p className="text-sm text-muted-foreground">Utilizamos cookies para mejorar tu experiencia. Al continuar navegando, aceptas nuestra política de cookies.</p>
         <button
           onClick={() => { localStorage.setItem("pps_cookies", "true"); setShow(false); }}
-          className="bg-accent text-accent-foreground px-6 py-2 rounded-lg text-sm font-semibold hover:bg-orange-light transition-colors whitespace-nowrap"
+          className="bg-red text-accent-foreground px-6 py-2 rounded-lg text-sm font-semibold hover:bg-red-light transition-colors whitespace-nowrap"
         >
           Aceptar
         </button>

@@ -38,7 +38,7 @@ export default function InstallationPage() {
               { icon: Cable, title: "Cableado", desc: "Cableado estructurado certificado." },
             ].map((s) => (
               <div key={s.title} className="bg-card border rounded-xl p-6 text-center">
-                <s.icon className="w-10 h-10 text-accent mx-auto mb-3" />
+                <s.icon className="w-10 h-10 text-red mx-auto mb-3" />
                 <h3 className="font-bold mb-1">{s.title}</h3>
                 <p className="text-sm text-muted-foreground">{s.desc}</p>
               </div>
@@ -49,7 +49,7 @@ export default function InstallationPage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
             {["1. Consulta inicial", "2. Evaluación técnica", "3. Instalación", "4. Verificación y entrega"].map((step, i) => (
               <div key={i} className="bg-card border rounded-xl p-5 text-center">
-                <div className="w-10 h-10 rounded-full bg-accent text-accent-foreground font-bold flex items-center justify-center mx-auto mb-3">{i + 1}</div>
+                <div className="w-10 h-10 rounded-full bg-red text-accent-foreground font-bold flex items-center justify-center mx-auto mb-3">{i + 1}</div>
                 <p className="font-medium text-sm">{step.slice(3)}</p>
               </div>
             ))}
@@ -63,7 +63,7 @@ export default function InstallationPage() {
               <Input required placeholder="Teléfono *" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
               <Input required placeholder="Servicio requerido *" value={form.service} onChange={(e) => setForm((f) => ({ ...f, service: e.target.value }))} />
               <Textarea placeholder="Detalles del proyecto" value={form.details} onChange={(e) => setForm((f) => ({ ...f, details: e.target.value }))} />
-              <Button type="submit" className="w-full bg-accent text-accent-foreground hover:bg-orange-light">Solicitar servicio por WhatsApp</Button>
+              <Button type="submit" className="w-full bg-red text-accent-foreground hover:bg-red-light">Solicitar servicio por WhatsApp</Button>
             </form>
           </div>
         </div>

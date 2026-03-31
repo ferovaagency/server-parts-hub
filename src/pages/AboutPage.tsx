@@ -29,7 +29,7 @@ export default function AboutPage() {
           <p className="text-sm text-muted-foreground">📧 {COMPANY_EMAIL}</p>
           <p className="text-sm text-muted-foreground">📱 +57 316 878 8749</p>
           <a href={whatsappUrl("Hola, quisiera más información sobre Partes Para Servidores.")} target="_blank" rel="noopener noreferrer"
-            className="inline-block mt-3 bg-accent text-accent-foreground px-6 py-2 rounded-lg font-semibold hover:bg-orange-light transition-colors">
+            className="inline-block mt-3 bg-red text-accent-foreground px-6 py-2 rounded-lg font-semibold hover:bg-red-light transition-colors">
             Contáctanos por WhatsApp
           </a>
         </div>

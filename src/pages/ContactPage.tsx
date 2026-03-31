@@ -15,21 +15,21 @@ export default function ContactPage() {
       <div className="container mx-auto px-4 py-12 max-w-2xl">
         <div className="space-y-6">
           <div className="flex items-start gap-4 bg-card border rounded-xl p-6">
-            <Mail className="w-6 h-6 text-accent mt-1" />
+            <Mail className="w-6 h-6 text-red mt-1" />
             <div>
               <h3 className="font-bold">Email</h3>
-              <a href={`mailto:${COMPANY_EMAIL}`} className="text-muted-foreground hover:text-accent transition-colors">{COMPANY_EMAIL}</a>
+              <a href={`mailto:${COMPANY_EMAIL}`} className="text-muted-foreground hover:text-red transition-colors">{COMPANY_EMAIL}</a>
             </div>
           </div>
           <div className="flex items-start gap-4 bg-card border rounded-xl p-6">
-            <Phone className="w-6 h-6 text-accent mt-1" />
+            <Phone className="w-6 h-6 text-red mt-1" />
             <div>
               <h3 className="font-bold">WhatsApp</h3>
-              <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-accent transition-colors">+57 316 878 8749</a>
+              <a href={`https://wa.me/${WHATSAPP_NUMBER}`} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-red transition-colors">+57 316 878 8749</a>
             </div>
           </div>
           <div className="flex items-start gap-4 bg-card border rounded-xl p-6">
-            <MapPin className="w-6 h-6 text-accent mt-1" />
+            <MapPin className="w-6 h-6 text-red mt-1" />
             <div>
               <h3 className="font-bold">Ubicaciones</h3>
               <p className="text-muted-foreground">📦 Bodega Colombia 🇨🇴</p>
@@ -38,7 +38,7 @@ export default function ContactPage() {
           </div>
           <div className="text-center">
             <a href={whatsappUrl("Hola, quisiera contactar a Partes Para Servidores.")} target="_blank" rel="noopener noreferrer"
-              className="inline-block bg-accent text-accent-foreground px-8 py-3 rounded-xl font-bold hover:bg-orange-light transition-colors">
+              className="inline-block bg-red text-accent-foreground px-8 py-3 rounded-xl font-bold hover:bg-red-light transition-colors">
               Iniciar conversación por WhatsApp
             </a>
           </div>

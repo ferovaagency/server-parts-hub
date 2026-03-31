@@ -80,7 +80,7 @@ export default function ShopPage() {
           <div className="text-center py-16 space-y-4">
             <p className="text-lg font-semibold">Estamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸.</p>
             <p className="text-muted-foreground">Un asesor te contactará en breve.</p>
-            <a href={whatsappUrl("Hola, quisiera hablar con un asesor de Partes Para Servidores.")} target="_blank" rel="noopener noreferrer" className="inline-block bg-accent text-accent-foreground px-6 py-3 rounded-xl font-bold hover:bg-orange-light transition-colors">
+            <a href={whatsappUrl("Hola, quisiera hablar con un asesor de Partes Para Servidores.")} target="_blank" rel="noopener noreferrer" className="inline-block bg-red text-accent-foreground px-6 py-3 rounded-xl font-bold hover:bg-red-light transition-colors">
               Hablar con un asesor
             </a>
             {alternatives.length > 0 && (
