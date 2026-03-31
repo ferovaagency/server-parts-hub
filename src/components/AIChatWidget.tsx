@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { MessageCircle, X, Send, User, Bot } from "lucide-react";
+import { Bot, X, Send } from "lucide-react";
 import { whatsappUrl } from "@/lib/constants";
-import { motion, AnimatePresence } from "framer-motion";
-
 type Message = { role: "user" | "assistant"; content: string };
 
 export default function AIChatWidget() {
@@ -12,127 +10,103 @@ export default function AIChatWidget() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
-
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
-
-  const handleOpen = () => { setOpen(true); setMode("choice"); };
 
   const startAI = () => {
     setMode("chat");
-    setMessages([{ role: "assistant", content: "¡Hola! Soy el asistente virtual de Partes Para Servidores. 🖥️\n\nPuedo ayudarte a encontrar partes compatibles para servidores HP, Dell, IBM, Lenovo, Cisco, Juniper, APC, Eaton y más.\n\n¿En qué puedo ayudarte hoy?" }]);
-  };
-
-  const startHuman = () => {
-    window.open(whatsappUrl("Hola, quisiera hablar con un asesor de Partes Para Servidores."), "_blank");
+    setMessages([{ role: "assistant", content: "¡Hola! Soy el asistente de Partes Para Servidores 🖥️\n\nPuedo ayudarte a encontrar partes para servidores HP, Dell, IBM, Lenovo, Cisco, APC, Eaton y más.\n\n¿En qué puedo ayudarte?" }]);
   };
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
     const userMsg: Message = { role: "user", content: input.trim() };
-    const newMsgs = [...messages, userMsg];
-    setMessages(newMsgs);
+    setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
-
     setTimeout(() => {
-      const response = generateLocalResponse(userMsg.content);
-      setMessages((prev) => [...prev, { role: "assistant", content: response }]);
+      setMessages((prev) => [...prev, { role: "assistant", content: generateLocalResponse(userMsg.content) }]);
       setLoading(false);
-    }, 1000);
+    }, 900);
   };
 
   const sendSummary = () => {
     const summary = messages.map((m) => `${m.role === "user" ? "Cliente" : "Asistente"}: ${m.content}`).join("\n\n");
-    window.open(whatsappUrl(`Resumen de conversación con asistente IA:\n\n${summary}`), "_blank");
+    window.open(whatsappUrl(`Resumen de conversación:\n\n${summary}`), "_blank");
   };
 
   return (
     <>
       {!open && (
-        <button onClick={handleOpen} className="fixed bottom-6 right-20 z-50 bg-primary text-primary-foreground p-3.5 rounded-full shadow-elevated hover:bg-dark-light transition-colors" aria-label="Abrir chat">
+        <button onClick={() => { setOpen(true); setMode("choice"); }}
+          className="fixed bottom-6 right-24 z-50 w-12 h-12 bg-dark hover:bg-dark-light border-2 border-red text-white rounded-full shadow-elevated flex items-center justify-center transition-all hover:scale-110">
           <Bot className="w-5 h-5" />
         </button>
       )}
-
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-20 right-6 z-50 w-[360px] max-h-[500px] bg-card border rounded-2xl shadow-elevated flex flex-col overflow-hidden"
-          >
-            {/* Header */}
-            <div className="bg-dark text-primary-foreground p-4 flex items-center justify-between">
-              <span className="font-bold text-sm">Asistente PPS</span>
-              <button onClick={() => { setOpen(false); setMode(null); }} className="text-primary-foreground/70 hover:text-primary-foreground"><X className="w-4 h-4" /></button>
-            </div>
-
-            {mode === "choice" && (
-              <div className="p-6 space-y-4 text-center">
-                <p className="font-bold">¡Hola! Soy el asistente de Partes Para Servidores 🖥️</p>
-                <p className="text-sm text-muted-foreground">¿Cómo prefieres que te ayudemos hoy?</p>
-                <button onClick={startAI} className="w-full bg-red text-accent-foreground py-3 rounded-xl font-semibold hover:bg-red-light transition-colors">🤖 Asesorarme con IA</button>
-                <button onClick={startHuman} className="w-full bg-primary text-primary-foreground py-3 rounded-xl font-semibold hover:bg-dark-light transition-colors">👤 Hablar con una persona</button>
+      {open && (
+        <div className="fixed bottom-20 right-6 z-50 w-[360px] max-h-[520px] bg-card border rounded-2xl shadow-elevated flex flex-col overflow-hidden">
+          <div className="bg-dark p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-red rounded-lg flex items-center justify-center">
+                <Bot className="w-4 h-4 text-white" />
               </div>
-            )}
+              <div>
+                <p className="text-white font-bold text-sm">Asistente PPS</p>
+                <p className="text-white/50 text-xs">Partes Para Servidores</p>
+              </div>
+            </div>
+            <button onClick={() => { setOpen(false); setMode(null); }} className="text-white/60 hover:text-white"><X className="w-5 h-5" /></button>
+          </div>
 
-            {mode === "chat" && (
-              <>
-                <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[320px]">
-                  {messages.map((m, i) => (
-                    <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                      <div className={`max-w-[80%] rounded-xl px-3 py-2 text-sm ${m.role === "user" ? "bg-red text-accent-foreground" : "bg-muted text-foreground"}`}>
-                        {m.content}
-                      </div>
-                    </div>
-                  ))}
-                  {loading && <div className="flex justify-start"><div className="bg-muted rounded-xl px-3 py-2 text-sm animate-pulse">Escribiendo...</div></div>}
-                  <div ref={endRef} />
-                </div>
+          {mode === "choice" && (
+            <div className="p-6 space-y-4 text-center">
+              <div className="w-16 h-16 bg-red/10 rounded-full flex items-center justify-center mx-auto">
+                <Bot className="w-8 h-8 text-red" />
+              </div>
+              <div>
+                <p className="font-bold text-foreground">¡Hola! Soy el asistente de Partes Para Servidores</p>
+                <p className="text-sm text-muted-foreground mt-1">¿Cómo prefieres que te ayudemos hoy?</p>
+              </div>
+              <button onClick={startAI} className="w-full bg-red hover:bg-red-light text-white py-3 rounded-xl font-semibold text-sm transition-colors">🤖 Asesorarme con IA</button>
+              <button onClick={() => window.open(whatsappUrl("Hola, quisiera hablar con un asesor."), "_blank")}
+                className="w-full bg-dark hover:bg-dark-light text-white py-3 rounded-xl font-semibold text-sm transition-colors">👤 Hablar con una persona</button>
+            </div>
+          )}
 
-                <div className="border-t p-3 space-y-2">
-                  <div className="flex gap-2">
-                    <input
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                      placeholder="Escribe tu consulta..."
-                      className="flex-1 border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-red"
-                    />
-                    <button onClick={sendMessage} disabled={loading} className="bg-red text-accent-foreground p-2 rounded-lg hover:bg-red-light transition-colors">
-                      <Send className="w-4 h-4" />
-                    </button>
+          {mode === "chat" && (
+            <>
+              <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[320px]">
+                {messages.map((m, i) => (
+                  <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
+                    <p className={`max-w-[80%] rounded-xl px-3 py-2 text-sm whitespace-pre-line ${m.role === "user" ? "bg-red text-white" : "bg-muted text-foreground"}`}>{m.content}</p>
                   </div>
-                  <button onClick={sendSummary} className="w-full text-xs text-muted-foreground hover:text-red transition-colors">
-                    Enviar resumen al asesor →
-                  </button>
+                ))}
+                {loading && <p className="bg-muted rounded-xl px-3 py-2 text-sm animate-pulse w-fit">Escribiendo...</p>}
+                <div ref={endRef} />
+              </div>
+              <div className="border-t p-3 space-y-2">
+                <div className="flex gap-2">
+                  <input value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                    placeholder="Escribe tu consulta..."
+                    className="flex-1 border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red/30" />
+                  <button onClick={sendMessage} disabled={loading} className="bg-red hover:bg-red-light text-white p-2 rounded-lg transition-colors"><Send className="w-4 h-4" /></button>
                 </div>
-              </>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
+                <button onClick={sendSummary} className="w-full text-xs text-muted-foreground hover:text-red transition-colors">Enviar resumen al asesor humano →</button>
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 }
 
 function generateLocalResponse(input: string): string {
-  const lower = input.toLowerCase();
-  if (lower.includes("servidor") || lower.includes("server")) {
-    return "Trabajamos con servidores HP ProLiant, Dell PowerEdge, IBM System x y Lenovo ThinkSystem. Estamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸.\n\n¿Necesitas un modelo específico o quieres que te recomiende opciones?";
-  }
-  if (lower.includes("disco") || lower.includes("ssd") || lower.includes("hdd")) {
-    return "Manejamos discos SAS, SATA y SSD NVMe para todas las marcas. Tenemos opciones desde 480GB SSD hasta 18TB HDD.\n\nEstamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸.";
-  }
-  if (lower.includes("ram") || lower.includes("memoria")) {
-    return "Contamos con módulos DDR4 y DDR5 ECC para servidores. Capacidades de 8GB a 128GB por módulo.\n\nEstamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸. ¿Qué modelo de servidor tienes?";
-  }
-  if (lower.includes("ups") || lower.includes("energía") || lower.includes("energia")) {
-    return "Trabajamos con UPS de APC y Eaton. Desde UPS de rack hasta soluciones modulares de alta capacidad.\n\nEstamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸.";
-  }
-  if (lower.includes("precio") || lower.includes("costo") || lower.includes("valor")) {
-    return "Los precios dependen de la disponibilidad y condiciones de mercado. Un asesor puede darte una cotización personalizada.\n\n¿Te gustaría que envíe tu consulta a un asesor humano?";
-  }
-  return "Gracias por tu consulta. Estamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸.\n\n¿Puedes darme más detalles sobre lo que necesitas? (marca, modelo, tipo de parte)";
+  const l = input.toLowerCase();
+  if (l.includes("servidor") || l.includes("server")) return "Trabajamos con HP ProLiant, Dell PowerEdge, IBM System x y Lenovo ThinkSystem.\n\nEstamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸.\n\n¿Necesitas un modelo específico?";
+  if (l.includes("disco") || l.includes("ssd") || l.includes("hdd")) return "Manejamos discos SAS, SATA y SSD NVMe. Opciones de 480GB hasta 18TB.\n\nEstamos consultando disponibilidad en Colombia 🇨🇴 y Miami 🇺🇸.";
+  if (l.includes("ram") || l.includes("memoria")) return "Módulos DDR4 y DDR5 ECC para servidores, de 8GB a 128GB.\n\n¿Qué modelo de servidor tienes?";
+  if (l.includes("ups") || l.includes("energía") || l.includes("energia")) return "UPS de APC y Eaton. Desde rack hasta soluciones modulares.\n\nEstamos consultando disponibilidad en Colombia 🇨🇴 y Miami 🇺🇸.";
+  if (l.includes("precio") || l.includes("costo") || l.includes("valor")) return "Los precios dependen de disponibilidad. Un asesor puede darte cotización personalizada.\n\n¿Te conecto con un asesor?";
+  if (l.includes("cisco") || l.includes("switch") || l.includes("router")) return "Switches y routers Cisco, Juniper y HP. Nuevos y remanufacturados.\n\nEstamos consultando disponibilidad en Colombia 🇨🇴 y Miami 🇺🇸.";
+  return "Estamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸.\n\n¿Puedes darme más detalles? (marca, modelo, tipo de parte)";
 }
