@@ -35,7 +35,7 @@ export default function MyAccountPage() {
         <form onSubmit={handleSearch} className="space-y-4">
           <Input required type="email" placeholder="Tu email" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input required placeholder="Referencia (QT-...)" value={ref} onChange={(e) => setRef(e.target.value)} />
-          <Button type="submit" disabled={loading} className="w-full bg-accent text-accent-foreground hover:bg-orange-light">
+          <Button type="submit" disabled={loading} className="w-full bg-red text-accent-foreground hover:bg-red-light">
             {loading ? "Buscando..." : "Consultar cotización"}
           </Button>
         </form>

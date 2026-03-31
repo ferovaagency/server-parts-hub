@@ -42,7 +42,7 @@ export default function ProductDetailPage() {
         <Helmet><title>Consultando disponibilidad | Partes Para Servidores</title></Helmet>
         <p className="text-lg font-semibold">Estamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸.</p>
         <p className="text-muted-foreground">Un asesor te contactará en breve.</p>
-        <a href={whatsappUrl("Hola, quisiera hablar con un asesor de Partes Para Servidores.")} target="_blank" rel="noopener noreferrer" className="inline-block bg-accent text-accent-foreground px-6 py-3 rounded-xl font-bold hover:bg-orange-light transition-colors">
+        <a href={whatsappUrl("Hola, quisiera hablar con un asesor de Partes Para Servidores.")} target="_blank" rel="noopener noreferrer" className="inline-block bg-red text-accent-foreground px-6 py-3 rounded-xl font-bold hover:bg-red-light transition-colors">
           Hablar con un asesor
         </a>
         {alternatives.length > 0 && (
@@ -76,7 +76,7 @@ export default function ProductDetailPage() {
             {images.length > 1 && (
               <div className="flex gap-2 overflow-x-auto">
                 {images.map((img: string, i: number) => (
-                  <button key={i} onClick={() => setSelectedImg(i)} className={`w-16 h-16 rounded-lg border overflow-hidden flex-shrink-0 ${i === selectedImg ? "ring-2 ring-accent" : ""}`}>
+                  <button key={i} onClick={() => setSelectedImg(i)} className={`w-16 h-16 rounded-lg border overflow-hidden flex-shrink-0 ${i === selectedImg ? "ring-2 ring-red" : ""}`}>
                     <img src={img} alt="" className="w-full h-full object-contain p-1" />
                   </button>
                 ))}
@@ -89,15 +89,15 @@ export default function ProductDetailPage() {
             <h1 className="text-2xl lg:text-3xl font-bold">{product.name}</h1>
             {product.sku && <p className="text-sm text-muted-foreground">SKU: {product.sku}</p>}
             <div className="flex flex-wrap gap-2">
-              {product.saleAvailable && <Badge className="bg-accent/10 text-accent border-accent/30">Disponible para venta</Badge>}
+              {product.saleAvailable && <Badge className="bg-red/10 text-red border-red/30">Disponible para venta</Badge>}
               {product.rentalAvailable && <Badge className="bg-primary/10 text-primary border-primary/30">Disponible para arrendamiento (mín. {product.rentalMinMonths} meses)</Badge>}
             </div>
             {product.description && <p className="text-muted-foreground">{product.description}</p>}
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href={consultarPrecioUrl(product.name, product.sku)} target="_blank" rel="noopener noreferrer" className="flex-1 text-center bg-accent text-accent-foreground py-3 rounded-xl font-bold hover:bg-orange-light transition-colors">
+              <a href={consultarPrecioUrl(product.name, product.sku)} target="_blank" rel="noopener noreferrer" className="flex-1 text-center bg-red text-accent-foreground py-3 rounded-xl font-bold hover:bg-red-light transition-colors">
                 Consultar disponibilidad y precio
               </a>
-              <Button variant="outline" className="flex-1" onClick={() => addItem({ id: product.id, name: product.name, sku: product.sku, image: images[0] })}>
+              <Button variant="outline" className="flex-1 border-red text-red hover:bg-red hover:text-white" onClick={() => addItem({ id: product.id, name: product.name, sku: product.sku, image: images[0] })}>
                 <Plus className="w-4 h-4 mr-2" /> Agregar a cotización
               </Button>
             </div>
