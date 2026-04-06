@@ -8,7 +8,8 @@ import { useQuoteStore } from "@/stores/quoteStore";
 import ProductCard from "@/components/ProductCard";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Plus, Eye, ChevronRight, MessageCircle } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Plus, Eye, ChevronRight, MessageCircle, Star } from "lucide-react";
 
 export default function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -64,7 +65,7 @@ export default function ProductDetailPage() {
         <Helmet><title>Consultando disponibilidad | Partes Para Servidores</title></Helmet>
         <p className="text-lg font-semibold">Estamos consultando disponibilidad en nuestras bodegas en Colombia 🇨🇴 y Miami 🇺🇸.</p>
         <p className="text-muted-foreground">Un asesor te contactará en breve.</p>
-        <a href={whatsappUrl("Hola, quisiera hablar con un asesor de Partes Para Servidores.")} target="_blank" rel="noopener noreferrer" className="inline-block bg-red text-white px-6 py-3 rounded-xl font-bold hover:bg-red-light transition-colors">
+        <a href={whatsappUrl("Hola, quisiera hablar con un asesor de Partes Para Servidores.")} target="_blank" rel="noopener noreferrer" className="inline-block bg-red text-accent-foreground px-6 py-3 rounded-xl font-bold hover:bg-red-light transition-colors">
           Hablar con un asesor
         </a>
         {alternatives.length > 0 && (
@@ -143,21 +144,35 @@ export default function ProductDetailPage() {
             </div>
 
             {product.shortDesc && <p className="text-muted-foreground">{product.shortDesc}</p>}
-            {product.description && <p className="text-sm text-muted-foreground">{product.description}</p>}
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <a href={consultarPrecioUrl(product.name, product.sku)} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-red text-white py-3.5 rounded-xl font-bold hover:bg-red-light transition-colors">
+              <a href={consultarPrecioUrl(product.name, product.sku)} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 bg-red text-accent-foreground py-3.5 rounded-xl font-bold hover:bg-red-light transition-colors">
                 <MessageCircle className="w-5 h-5" /> Consultar disponibilidad y precio
               </a>
-              <Button variant="outline" className="flex-1 border-red text-red hover:bg-red hover:text-white" onClick={() => addItem({ id: product.id, name: product.name, sku: product.sku, image: images[0] })}>
+              <Button variant="outline" className="flex-1 border-red text-red hover:bg-red hover:text-accent-foreground" onClick={() => addItem({ id: product.id, name: product.name, sku: product.sku, image: images[0] })}>
                 <Plus className="w-4 h-4 mr-2" /> Agregar a cotización
               </Button>
             </div>
+          </div>
+        </div>
 
-            {/* Specs */}
-            {specs.length > 0 && (
-              <div>
-                <h2 className="font-bold text-lg mb-3">Especificaciones técnicas</h2>
+        {/* Tabs section */}
+        <div className="mt-12">
+          <Tabs defaultValue="description" className="w-full">
+            <TabsList className="w-full justify-start">
+              <TabsTrigger value="description">Descripción</TabsTrigger>
+              <TabsTrigger value="specs">Especificaciones técnicas</TabsTrigger>
+              <TabsTrigger value="reviews">Reseñas</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="description" className="mt-6">
+              <div className="prose max-w-none text-muted-foreground">
+                <p>{product.description || "Descripción detallada no disponible. Contáctenos para más información."}</p>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="specs" className="mt-6">
+              {specs.length > 0 ? (
                 <div className="rounded-lg border overflow-hidden">
                   <table className="w-full text-sm">
                     <tbody>
@@ -170,9 +185,29 @@ export default function ProductDetailPage() {
                     </tbody>
                   </table>
                 </div>
+              ) : (
+                <p className="text-muted-foreground">Especificaciones bajo consulta.</p>
+              )}
+            </TabsContent>
+
+            <TabsContent value="reviews" className="mt-6">
+              <div className="space-y-6">
+                {[
+                  { name: "Carlos M. — Director IT, Bogotá", text: "Excelente calidad y atención. El equipo llegó perfectamente empacado y en los tiempos acordados." },
+                  { name: "Ana R. — Gerente de Infraestructura, Medellín", text: "El soporte técnico preventa fue muy valioso. Nos ayudaron a elegir el equipo correcto para nuestra infraestructura." },
+                ].map((review, i) => (
+                  <div key={i} className="border rounded-lg p-5 space-y-2">
+                    <div className="flex items-center gap-1 text-yellow-500">
+                      {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}
+                    </div>
+                    <p className="text-sm text-foreground">{review.text}</p>
+                    <p className="text-xs font-semibold text-muted-foreground">{review.name}</p>
+                  </div>
+                ))}
+                <p className="text-xs text-muted-foreground italic">Experiencia representativa de cliente de Partes Para Servidores</p>
               </div>
-            )}
-          </div>
+            </TabsContent>
+          </Tabs>
         </div>
 
         {/* Compatible products */}
@@ -189,10 +224,10 @@ export default function ProductDetailPage() {
 
       {/* Sticky mobile CTA */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-card border-t p-3 z-30 flex gap-2">
-        <a href={consultarPrecioUrl(product.name, product.sku)} target="_blank" rel="noopener noreferrer" className="flex-1 bg-red text-white py-3 rounded-lg font-bold text-center text-sm hover:bg-red-light transition-colors">
+        <a href={consultarPrecioUrl(product.name, product.sku)} target="_blank" rel="noopener noreferrer" className="flex-1 bg-red text-accent-foreground py-3 rounded-lg font-bold text-center text-sm hover:bg-red-light transition-colors">
           Consultar precio
         </a>
-        <button onClick={() => addItem({ id: product.id, name: product.name, sku: product.sku, image: images[0] })} className="border border-red text-red px-4 py-3 rounded-lg font-bold text-sm hover:bg-red hover:text-white transition-colors">
+        <button onClick={() => addItem({ id: product.id, name: product.name, sku: product.sku, image: images[0] })} className="border border-red text-red px-4 py-3 rounded-lg font-bold text-sm hover:bg-red hover:text-accent-foreground transition-colors">
           <Plus className="w-4 h-4" />
         </button>
       </div>
