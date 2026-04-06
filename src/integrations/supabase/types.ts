@@ -14,7 +14,207 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      brands: {
+        Row: {
+          created_at: string | null
+          id: string
+          logo: string | null
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          logo?: string | null
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          logo?: string | null
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          image: string | null
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image?: string | null
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          image?: string | null
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
+      customers: {
+        Row: {
+          company: string | null
+          created_at: string | null
+          email: string | null
+          id: string
+          name: string | null
+          phone: string | null
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string | null
+          phone?: string | null
+        }
+        Update: {
+          company?: string | null
+          created_at?: string | null
+          email?: string | null
+          id?: string
+          name?: string | null
+          phone?: string | null
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          active: boolean | null
+          brand_id: string | null
+          category_id: string | null
+          compatible_products: string[] | null
+          created_at: string | null
+          description: string | null
+          featured: boolean | null
+          id: string
+          images: string[] | null
+          meta_description: string | null
+          meta_title: string | null
+          name: string
+          rental_available: boolean | null
+          rental_min_months: number | null
+          sale_available: boolean | null
+          short_description: string | null
+          sku: string | null
+          slug: string
+          specs: Json | null
+          stock: number | null
+        }
+        Insert: {
+          active?: boolean | null
+          brand_id?: string | null
+          category_id?: string | null
+          compatible_products?: string[] | null
+          created_at?: string | null
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          images?: string[] | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name: string
+          rental_available?: boolean | null
+          rental_min_months?: number | null
+          sale_available?: boolean | null
+          short_description?: string | null
+          sku?: string | null
+          slug: string
+          specs?: Json | null
+          stock?: number | null
+        }
+        Update: {
+          active?: boolean | null
+          brand_id?: string | null
+          category_id?: string | null
+          compatible_products?: string[] | null
+          created_at?: string | null
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          images?: string[] | null
+          meta_description?: string | null
+          meta_title?: string | null
+          name?: string
+          rental_available?: boolean | null
+          rental_min_months?: number | null
+          sale_available?: boolean | null
+          short_description?: string | null
+          sku?: string | null
+          slug?: string
+          specs?: Json | null
+          stock?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "brands"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "products_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quotes: {
+        Row: {
+          created_at: string | null
+          customer_company: string | null
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          id: string
+          items: Json
+          notes: string | null
+          reference: string
+          status: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          customer_company?: string | null
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          id?: string
+          items: Json
+          notes?: string | null
+          reference: string
+          status?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          customer_company?: string | null
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
+          id?: string
+          items?: Json
+          notes?: string | null
+          reference?: string
+          status?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
