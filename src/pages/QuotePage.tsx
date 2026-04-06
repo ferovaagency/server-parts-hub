@@ -29,6 +29,23 @@ export default function QuotePage() {
       notes: form.notes,
     });
 
+    // Upsert customer
+    const { data: existingCustomer } = await supabase.from("customers").select("id").eq("email", form.email).maybeSingle();
+    if (existingCustomer) {
+      await supabase.from("customers").update({
+        name: form.name,
+        phone: form.phone,
+        company: form.company || undefined,
+      }).eq("id", existingCustomer.id);
+    } else {
+      await supabase.from("customers").insert({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        company: form.company || null,
+      });
+    }
+
     const itemsList = items.map((i) => `• ${i.name} — SKU: ${i.sku}`).join("\n");
     const msg = `Hola, soy ${form.name} de ${form.company || "N/A"}.\nSolicito cotización para:\n${itemsList}\nReferencia: ${ref}\nEmail: ${form.email} | Tel: ${form.phone}\nNotas: ${form.notes || "Ninguna"}`;
     window.open(whatsappUrl(msg), "_blank");
@@ -76,7 +93,7 @@ export default function QuotePage() {
               <Input required type="email" placeholder="Email *" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} />
               <Input required placeholder="Teléfono *" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} />
               <Textarea placeholder="Notas adicionales" value={form.notes} onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))} />
-              <Button type="submit" disabled={saving} className="w-full bg-red text-accent-foreground hover:bg-red-light text-lg py-3">
+              <Button type="submit" disabled={saving} className="w-full bg-red text-white hover:bg-red-light text-lg py-3">
                 {saving ? "Enviando..." : "Enviar cotización por WhatsApp"}
               </Button>
             </form>
